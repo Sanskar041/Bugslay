@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+   
+    <section id="forum">
+        <h2>Discussion Forum</h2>
+        <p>Engage in conversations, ask questions, and collaborate with other developers. All posts are anonymous.</p>
+        <textarea id="discussionInput" placeholder="Start a discussion..."></textarea>
+        <button onclick="postDiscussion()">Post</button>
+        <div id="discussionBoard"></div>
+    </section>
+
+    <script>
+        const anonymousNames = ['AnonCoder', 'DebugMaster', 'CodeNinja', 'StackWarrior', 'SyntaxSlayer', 'DevGhost', 'BugHunter', 'ScriptWizard', 'LogicPhantom', 'CodeMystery'];
+
+        function getRandomAnonymousName() {
+            const randomIndex = Math.floor(Math.random() * anonymousNames.length);
+            return anonymousNames[randomIndex];
+        }
+
+        function postDiscussion() {
+            const input = document.getElementById('discussionInput');
+            const message = input.value.trim();
+            if (message === '') {
+                alert('Please enter a message before posting.');
+                return;
+            }
+
+            const discussionBoard = document.getElementById('discussionBoard');
+            const post = document.createElement('div');
+            const anonymousName = getRandomAnonymousName();
+            post.innerHTML = `<strong>${anonymousName}:</strong> <p>${message}</p>`;
+            discussionBoard.prepend(post);
+            input.value = '';
+        }
+    </script>
+</body>
+</html>

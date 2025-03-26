@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BugSlay Profile</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+        body {
+            background: radial-gradient(circle, #1a1a1a, #000000);
+            color: #00ffcc;
+            font-family: 'Orbitron', sans-serif;
+            overflow: hidden;
+        }
+        .login-screen {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            background: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            text-shadow: 0 0 10px #00ffcc;
+            animation: fadeOut 3s forwards 2s;
+        }
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+        .profile-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5vh;
+            perspective: 1000px;
+            gap: 30px; /* Added gap between boxes */
+        }
+        .profile-panel, .achievements-panel {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px #00ffcc;
+            transform: rotateY(5deg) translateZ(30px);
+            transition: transform 0.3s ease-in-out;
+        }
+        .profile-panel:hover, .achievements-panel:hover {
+            transform: scale(1.05) rotateY(0deg);
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #00ffcc;
+            background: url('default-avatar.png') no-repeat center;
+            background-size: cover;
+            margin: 10px auto;
+        }
+        .edit-btn {
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: #00ffcc;
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            border-radius: 5px;
+        }
+        .edit-btn:hover {
+            background: #009988;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-screen">
+        <div class="terminal">
+            <p>> Booting up...</p>
+            <p>> Verifying identity...</p>
+            <p class="access">ACCESS GRANTED - Welcome, Debugger.</p>
+        </div>
+    </div>
+
+    <div class="profile-container">
+        <div class="profile-panel">
+            <h2>Debugger Profile</h2>
+            <div class="avatar" id="avatar"></div>
+            <p>Username: <span class="username">CyberHunter</span></p>
+            <p>Rank: <span class="rank">Elite Debugger</span></p>
+            <p>Preferred Language: <span class="language">JavaScript</span></p>
+            <p>Contact: <span class="contact">+1234567890</span></p>
+            <p>Email: <span class="email">debugger@example.com</span></p>
+            <button class="edit-btn" onclick="editProfile()">Edit</button>
+            <button class="edit-btn" onclick="changeAvatar()">Change Avatar</button>
+        </div>
+
+        <div class="achievements-panel">
+            <h2>Achievements</h2>
+            <div class="achievement">🏆 Bug Zapper</div>
+            <div class="achievement">🔥 Speed Debugger</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("mousemove", (event) => {
+            let panels = document.querySelectorAll(".profile-panel, .achievements-panel");
+            let x = (window.innerWidth / 2 - event.pageX) / 50;
+            let y = (window.innerHeight / 2 - event.pageY) / 50;
+            panels.forEach(panel => {
+                panel.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+            });
+        });
+
+        function editProfile() {
+            let newUsername = prompt("Enter new username:", document.querySelector(".username").textContent);
+            let newRank = prompt("Enter new rank:", document.querySelector(".rank").textContent);
+            let newLanguage = prompt("Enter preferred language:", document.querySelector(".language").textContent);
+            let newContact = prompt("Enter contact number:", document.querySelector(".contact").textContent);
+            let newEmail = prompt("Enter email:", document.querySelector(".email").textContent);
+            
+            if (newUsername) document.querySelector(".username").textContent = newUsername;
+            if (newRank) document.querySelector(".rank").textContent = newRank;
+            if (newLanguage) document.querySelector(".language").textContent = newLanguage;
+            if (newContact) document.querySelector(".contact").textContent = newContact;
+            if (newEmail) document.querySelector(".email").textContent = newEmail;
+        }
+
+        function changeAvatar() {
+            let newAvatar = prompt("Enter URL of new profile picture:");
+            if (newAvatar) {
+                document.getElementById("avatar").style.backgroundImage = `url('${newAvatar}')`;
+            }
+        }
+    </script>
+</body>
+</html>

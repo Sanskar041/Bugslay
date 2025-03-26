@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <h1>Welcome to BugSlayer Quiz</h1>
+    <p>Choose your challenge: Test your knowledge with MCQs or debug code in an interactive session.</p>
+
+    <button onclick="showMCQSection()">MCQ Quiz</button>
+    <button onclick="showDebuggingSection()">Debugging Challenge</button>
+
+    <!-- MCQ Section -->
+    <section id="quiz" style="display: none;">
+        <h2>MCQ Quiz</h2>
+        <p>Answer the following multiple-choice questions.</p>
+        <button onclick="startQuiz()">Start Quiz</button>
+        <div id="questionContainer"></div>
+        <button id="nextButton" onclick="nextQuestion()" style="display:none;">Next Question</button>
+        <div id="timer" style="font-weight: bold; margin-top: 10px; color: #d9534f;"></div>
+    </section>
+
+    <!-- Debugging Section -->
+    <section id="debugging" style="display: none;">
+        <h2>Debugging Challenge</h2>
+        <p>Identify and fix the bug in the given code below:</p>
+        <pre id="codeBlock"></pre>
+        <textarea id="codeSolution" placeholder="Fix the bug here..." rows="8" cols="50"></textarea>
+        <button onclick="submitDebugSolution()">Submit Solution</button>
+        <button id="nextDebugButton" onclick="nextDebugChallenge()">Next Challenge</button>
+        <div id="debugResult"></div>
+        <div id="debugTimer" style="font-weight: bold; margin-top: 10px; color: #d9534f;"></div>
+    </section>
+
+    <script>
+        function showMCQSection() {
+            document.getElementById('quiz').style.display = 'block';
+            document.getElementById('debugging').style.display = 'none';
+        }
+
+        function showDebuggingSection() {
+            document.getElementById('debugging').style.display = 'block';
+            document.getElementById('quiz').style.display = 'none';
+            loadDebugChallenge();
+            startDebugTimer();
+        }
+
+        const debugChallenges = [
+            // Python
+            { code: "def divide(a, b):\n    return a / b\nprint(divide(10, 0))", correctSolution: /ZeroDivisionError/ },
+            { code: "for i in range(5):\nprint i", correctSolution: /print\(i\)/ },
+
+            // Java
+            { code: "public class Main {\n  public static void main(String[] args) {\n    System.out.println(\"Hello World\")\n  }\n}", correctSolution: /\);/ },
+            { code: "int x = 10;\nSystem.out.println(X);", correctSolution: /x/ },
+
+            // C++
+            { code: "#include<iostream>\nusing namespace std;\nint main() {\ncout << \"Hello World\" << endl\nreturn 0;\n}", correctSolution: /;\s*return/ },
+            { code: "int arr[5] = {1, 2, 3, 4, 5};\ncout << arr[5];", correctSolution: /arr\[4\]/ },
+
+            // C#
+            { code: "using System;\nclass Program {\n    static void Main() {\n        Console.WriteLine(\"Hello, World!\")\n    }\n}", correctSolution: /\);/ },
+            { code: "int number = Convert.ToInt32(\"123a\");", correctSolution: /int\.TryParse/ }
+        ];
+
+        let currentDebugIndex = 0;
+        let debugTimeLeft = 3600;
+        let debugTimer;
+
+        function loadDebugChallenge() {
+            document.getElementById('codeBlock').textContent = debugChallenges[currentDebugIndex].code;
+            document.getElementById('codeSolution').value = '';
+            document.getElementById('debugResult').textContent = '';
+        }
+
+        function submitDebugSolution() {
+            const solution = document.getElementById('codeSolution').value.trim();
+            const correctSolution = debugChallenges[currentDebugIndex].correctSolution;
+            const resultDisplay = document.getElementById('debugResult');
+            
+            if (correctSolution.test(solution)) {
+                resultDisplay.textContent = '✅ Correct! Well done.';
+                resultDisplay.style.color = 'green';
+            } else {
+                resultDisplay.textContent = '❌ Incorrect. Please try again!';
+                resultDisplay.style.color = 'red';
+            }
+        }
+
+        function nextDebugChallenge() {
+            currentDebugIndex++;
+            if (currentDebugIndex < debugChallenges.length) {
+                loadDebugChallenge();
+            } else {
+                alert('Congratulations! You have completed all debugging challenges.');
+            }
+        }
+
+        function startDebugTimer() {
+            const timerDisplay = document.getElementById('debugTimer');
+            debugTimer = setInterval(() => {
+                const hours = Math.floor(debugTimeLeft / 3600);
+                const minutes = Math.floor((debugTimeLeft % 3600) / 60);
+                const seconds = debugTimeLeft % 60;
+                timerDisplay.textContent = `Time Left: ${hours}h ${minutes}m ${seconds}s`;
+                debugTimeLeft--;
+
+                if (debugTimeLeft < 0) {
+                    clearInterval(debugTimer);
+                    alert("Time's up!");
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

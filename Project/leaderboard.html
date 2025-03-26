@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <section id="leaderboard">
+        <h2>Leaderboard</h2>
+        <p>Rank users based on debugging success. The leaderboard updates every hour!</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboardBody">
+            </tbody>
+        </table>
+    </section>
+
+    <script>
+        const names = ['Alice', 'Bob', 'Charlie', 'Dave', 'Eve', 'Frank', 'Grace', 'Hank', 'Ivy', 'Jack'];
+
+        function generateRandomScore() {
+            return Math.floor(Math.random() * 1000);
+        }
+
+        function generateRandomLeaderboard() {
+            const leaderboardData = names.map(name => ({
+                name,
+                score: generateRandomScore()
+            }));
+
+            leaderboardData.sort((a, b) => b.score - a.score);
+
+            const tbody = document.getElementById('leaderboardBody');
+            tbody.innerHTML = ''; // Clear existing data
+
+            leaderboardData.forEach((user, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${index + 1}</td><td>${user.name}</td><td>${user.score}</td>`;
+                tbody.appendChild(row);
+            });
+        }
+
+        generateRandomLeaderboard();
+        setInterval(generateRandomLeaderboard, 3600000); // Updates every hour
+    </script>
+</body>
+</html>

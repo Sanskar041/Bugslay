@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <section id="quiz">
+        <h2>Coding Quiz</h2>
+        <p>Test your coding and debugging knowledge!</p>
+        <button onclick="startQuiz()">Start Quiz</button>
+        <div id="quizContainer"></div>
+        <div id="timer" style="font-weight: bold; margin-top: 10px; color: #d9534f;"></div>
+    </section>
+
+    <script>
+        const questions = [
+            { question: "What is the output of `print(2 ** 3)` in Python?", options: ["5", "6", "8", "9"], answer: "8" },
+            { question: "Which keyword is used to define a function in JavaScript?", options: ["def", "function", "func", "define"], answer: "function" },
+            { question: "What does `==` do in Java compared to `equals()`?", options: ["Checks value equality", "Checks reference equality", "Performs logical comparison", "Throws an error"], answer: "Checks reference equality" },
+            { question: "Which language is primarily used for web development?", options: ["Python", "Java", "JavaScript", "C++"], answer: "JavaScript" },
+            { question: "What is the time complexity of binary search?", options: ["O(1)", "O(n)", "O(log n)", "O(n^2)"], answer: "O(log n)" },
+            { question: "What does HTML stand for?", options: ["Hyper Text Markup Language", "High Transfer Markup Language", "Hyperlink and Text Management Language", "Hyper Transfer Markup Language"], answer: "Hyper Text Markup Language" },
+            { question: "Which data structure uses LIFO (Last In, First Out)?", options: ["Queue", "Stack", "Heap", "Linked List"], answer: "Stack" },
+            { question: "In CSS, which property is used to change text color?", options: ["font-style", "color", "text-color", "background-color"], answer: "color" },
+            { question: "What is the purpose of the `git clone` command?", options: ["To merge branches", "To copy a repository", "To commit changes", "To delete a repository"], answer: "To copy a repository" },
+            { question: "Which of the following is a relational database?", options: ["MongoDB", "Redis", "MySQL", "Cassandra"], answer: "MySQL" }
+        ];
+
+        let timer;
+        let timeLeft = 300; // 5 minutes for the quiz
+
+        function startQuiz() {
+            const quizContainer = document.getElementById("quizContainer");
+            quizContainer.innerHTML = "";
+            timeLeft = 300;
+            startTimer();
+
+            questions.forEach((q, index) => {
+                const questionElement = document.createElement("div");
+                questionElement.innerHTML = `<p>${index + 1}. ${q.question}</p>`;
+
+                q.options.forEach(option => {
+                    questionElement.innerHTML += `
+                        <label>
+                            <input type="radio" name="q${index}" value="${option}"> ${option}
+                        </label><br>
+                    `;
+                });
+
+                quizContainer.appendChild(questionElement);
+            });
+
+            const submitButton = document.createElement("button");
+            submitButton.textContent = "Submit Answers";
+            submitButton.onclick = () => {
+                clearInterval(timer);
+                evaluateQuiz();
+            };
+            quizContainer.appendChild(submitButton);
+        }
+
+        function startTimer() {
+            const timerDisplay = document.getElementById("timer");
+            timer = setInterval(() => {
+                timerDisplay.textContent = `Time Left: ${timeLeft} seconds`;
+                timeLeft--;
+
+                if (timeLeft < 0) {
+                    clearInterval(timer);
+                    alert("Time's up! Submitting your answers.");
+                    evaluateQuiz();
+                }
+            }, 1000);
+        }
+
+        function evaluateQuiz() {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selected && selected.value === q.answer) {
+                    score++;
+                }
+            });
+
+            alert(`You scored ${score} out of ${questions.length}!`);
+        }
+    </script>
+
+    <style>
+        #quizContainer { margin-top: 20px; }
+        #quizContainer p { font-weight: bold; }
+        button { background-color: #007bff; color: white; padding: 10px 20px; border: none; margin-top: 10px; cursor: pointer; border-radius: 8px; }
+        button:hover { background-color: #0056b3; }
+        #timer { color: #d9534f; }
+    </style>
+</body>
+</html>

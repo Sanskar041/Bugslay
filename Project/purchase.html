@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Purchase Plan</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <section id="purchase">
+        <h2>Choose Your Plan</h2>
+        <p>Select a plan that suits your coding needs and proceed to payment via WhatsApp.</p>
+        <div id="purchaseContainer">
+            <div class="plan">
+                <h3>Basic Plan</h3>
+                <p>₹500 / Month</p>
+                <p>Great for beginner coders or students. Includes access to basic debugging tools, interactive coding challenges, and community support. Ideal for those starting their coding journey and wanting to enhance their problem-solving skills with hands-on experience.</p>
+                <button onclick="redirectToWhatsApp(500)">Buy Now</button>
+            </div>
+            <div class="plan">
+                <h3>Standard Plan</h3>
+                <p>₹1000 / Month</p>
+                <p>Perfect for intermediate coders and developers looking to level up. Offers advanced debugging tools with AI-powered error detection, access to exclusive coding projects, and mentorship from industry experts. Includes participation in monthly hackathons and coding events.</p>
+                <button onclick="redirectToWhatsApp(1000)">Buy Now</button>
+            </div>
+            <div class="plan">
+                <h3>Premium Plan</h3>
+                <p>₹1500 / Month</p>
+                <p>Best for experienced developers, coding teams, or companies. Gain unlimited access to expert mentorship, personalized code reviews, and in-depth debugging assistance. Enjoy real-time collaboration features, priority support, and career guidance sessions. Participate in BugSlayer Pro challenges for recognition and rewards.</p>
+                <button onclick="redirectToWhatsApp(1500)">Buy Now</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function redirectToWhatsApp(amount) {
+            const phoneNumber = '+916001163688';
+            const message = `Hi, I'm interested in purchasing the ${amount} INR plan for BugSlayer. Please provide further details.`;
+            const encodedMessage = encodeURIComponent(message);
+            window.location.href = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+        }
+    </script>
+</body>
+</html>
